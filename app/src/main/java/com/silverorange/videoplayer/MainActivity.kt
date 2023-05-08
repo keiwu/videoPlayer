@@ -4,6 +4,7 @@ import android.net.Uri
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -19,6 +20,8 @@ import androidx.compose.material.IconButton
 import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -37,6 +40,7 @@ import com.silverorange.videoplayer.ui.VideoViewModel
 import com.silverorange.videoplayer.util.VideoEvent
 import dagger.hilt.android.AndroidEntryPoint
 import dev.jeziellago.compose.markdowntext.MarkdownText
+import kotlinx.coroutines.delay
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
@@ -58,6 +62,9 @@ fun TopBar() {
 @Composable
 fun VideoPresenter(){
   val videoViewModel = hiltViewModel<VideoViewModel>()
+  val showControls = remember {
+    mutableStateOf(true)
+  }
 
   when (val videosEvent = videoViewModel.videosEvent.collectAsState().value){
     is VideoEvent.Success -> {
@@ -99,10 +106,13 @@ fun VideoPresenter(){
         },
         modifier = Modifier
           .fillMaxWidth()
-          .aspectRatio(16 / 9.0f) //16:9 ratio
+          .clickable {
+            showControls.value = true
+          }
+          .aspectRatio(16 / 9.0f), //16:9 ratio
       )
 
-      Controls(videoViewModel = videoViewModel)
+      TimedControl(videoViewModel = videoViewModel, showControls)
     }
 
     VideoDetail(videoViewModel)
@@ -156,9 +166,26 @@ fun VideoDetail(videoViewModel: VideoViewModel){
 
 
 @Composable
+fun TimedControl(videoViewModel: VideoViewModel, showControls: MutableState<Boolean>){
+  if (showControls.value){
+    Controls(videoViewModel)
+
+    LaunchedEffect(key1 = Unit){
+      delay(5000)
+      showControls.value = false
+    }
+  }
+}
+
+@Composable
 fun Controls(videoViewModel: VideoViewModel){
+  val resource = if (videoViewModel.isVideoPlaying()) {
+      R.drawable.pause
+  } else {
+        R.drawable.play
+  }
   val playPauseResourceId = remember{
-    mutableStateOf(R.drawable.play)
+    mutableStateOf(resource)
   }
 
   val isLastVideo = remember {

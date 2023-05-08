@@ -55,10 +55,8 @@ dependencies {
     implementation 'androidx.compose.material:material-icons-extended:1.1.1'
     implementation 'androidx.activity:activity-compose:1.7.1'
     implementation 'androidx.lifecycle:lifecycle-viewmodel-compose:2.6.1'
-//    implementation 'androidx.compose.runtime:runtime-livedata:1.1.1'
-//    implementation 'androidx.compose.runtime:runtime-rxjava2:1.1.1'
     implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.1'
- //   implementation 'androidx.core:core-ktx:+'
+    implementation 'androidx.core:core-ktx:+'
 
     testImplementation 'junit:junit:4.13.2'
 
@@ -80,4 +78,12 @@ dependencies {
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'
     implementation "com.squareup.okhttp3:logging-interceptor:5.0.0-alpha.3"
     implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
+
+    // Markdown
+    implementation 'com.github.jeziellago:compose-markdown:0.3.3'
+
+    // Needed by Markdown
+    implementation "io.coil-kt:coil-compose:2.2.2"
+
+
 }

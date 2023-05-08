@@ -1,5 +1,8 @@
 package com.silverorange.videoplayer.di
 
+import android.app.Application
+import androidx.media3.common.Player
+import androidx.media3.exoplayer.ExoPlayer
 import com.silverorange.videoplayer.repository.DefaultVideoRepository
 import com.silverorange.videoplayer.data.VideoApi
 import dagger.Module
@@ -28,4 +31,12 @@ object AppModule {
     @Provides
     @Singleton
     fun provideVideoRepository(api: VideoApi) = DefaultVideoRepository(api)
+
+    @Provides
+    @Singleton
+    fun provideVideoPlayer(app: Application): Player {
+        return ExoPlayer
+            .Builder(app)
+            .build()
+    }
 }

@@ -1,8 +1,8 @@
-# videoPlayer
-# This project is a video player play a list of videos from cloud.
+# Video Player
+## This project is an Android video player plays a list of videos from cloud.
 
 The app connect to a local server to get a list of videos from the cloud.
-http://localhost:4000/videos (need to change the localhost to your local computer ip address to work)
+http://localhost:4000/videos (need to change the localhost to your local computer ip address to work).  
 
 This project uses jetpack compose.  
 The Top part is a ExoPlayer and the bottom part is the descripton of the video.  
